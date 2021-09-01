@@ -11,7 +11,7 @@
 
 <!-- 阻止单击事件继续传播 -->
 <a v-on:click.stop="doThis"></a>
-stop停止子传夫冒泡
+stop停止子传父冒泡
 
 <!-- 提交事件不再重载页面 -->
 <form v-on:submit.prevent="onSubmit"></form>
@@ -41,4 +41,5 @@ stop停止子传夫冒泡
 
 
 
-五. mixin:  1.组件的属性优先级高于mixin里面的属性
+五. mixin:  1.组件的data，methods优先级高于mixin里面的data,methods
+2.生命周期函数先执行mixin里的再执行组件里的
