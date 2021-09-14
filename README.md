@@ -62,3 +62,7 @@ toRefs 用于将响应式对象转换为结果对象，其中结果对象的每�
 3.watch和watchEffect的区别
 ·watch在生命周期开始第一次不执行（watch的惰性）；watch对象需要传待监听的对象的值；能获取新旧值
 ·watchEffect立即执行；传参只传入回调函数；不能获取到旧的值
+
+4.hash路由模式和history路由模式。 hash路由带"#"
+
+5.actions异步操作，mutations同步操作
