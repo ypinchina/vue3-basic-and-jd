@@ -1,4 +1,11 @@
 <template>
+  <div class="top-container">
+    <div class="position-container">
+      <span></span>
+      <div></div>
+      <span></span>
+    </div>
+  </div>
   <div class="docker">
     <div class="docker__item docker__item--active">
       <div class="iconfont">&#xe6f1;</div>
@@ -20,6 +27,12 @@
 </template>
 
 <style lang="stylus">
+.top-container
+  position absolute
+  bottom 4.9rem
+  width 100%
+  top 0
+  background blue
 .docker
   width 100%
   position absolute
