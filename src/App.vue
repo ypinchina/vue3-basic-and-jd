@@ -1,9 +1,9 @@
 <template>
   <div class="top-container">
-    <div class="position-container">
-      <span></span>
-      <div></div>
-      <span></span>
+    <div class="position">
+      <span class="iconfont position__icon">&#xe630;</span>
+      北京理工大学国防科技园2号楼10层
+      <span class="iconfont bell__icon">&#xe619;</span>
     </div>
   </div>
   <div class="docker">
@@ -30,10 +30,30 @@
 .top-container
   position absolute
   bottom 4.9rem
-  width 100%
+  left 0
+  right 0
   top 0
-  background blue
+  padding 0 1.8rem
+  .position
+    padding 1.6rem 2.4rem 1.6rem 0
+    color #333
+    font-size 1.6rem
+    line-height 2.2rem
+    position relative
+    overflow hidden
+    white-space nowrap
+    text-overflow ellipsis
+    .bell__icon
+      font-size 2rem
+      position absolute
+      top: 1.8rem
+      right 0
+    .position__icon
+      font-size 2rem
+      top: 0.1rem
+      position relative
 .docker
+  color #333
   width 100%
   position absolute
   left 0
