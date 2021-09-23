@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="top-container">
     <div class="position">
       <span class="iconfont position__icon">&#xe630;</span>
@@ -24,9 +25,11 @@
       <div class="docker__title">我的</div>
     </div>
   </div>
+</div>
 </template>
 
 <style lang="stylus">
+@import './style/viriables.styl'
 .top-container
   position absolute
   bottom 4.9rem
@@ -36,7 +39,7 @@
   padding 0 1.8rem
   .position
     padding 1.6rem 2.4rem 1.6rem 0
-    color #333
+    color $content-fontcolor
     font-size 1.6rem
     line-height 2.2rem
     position relative
@@ -53,7 +56,7 @@
       top: 0.1rem
       position relative
 .docker
-  color #333
+  color $content-fontcolor
   width 100%
   position absolute
   left 0
