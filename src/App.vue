@@ -6,6 +6,10 @@
       北京理工大学国防科技园2号楼10层
       <span class="iconfont bell__icon">&#xe619;</span>
     </div>
+    <div class="search">
+      <span class="iconfont">&#xe6a4;</span>
+      <span class="search__font">山姆会员商店</span>
+    </div>
   </div>
   <div class="docker">
     <div class="docker__item docker__item--active">
@@ -30,6 +34,7 @@
 
 <style lang="stylus">
 @import './style/viriables.styl'
+@import './style/mixins.styl'
 .top-container
   position absolute
   bottom 4.9rem
@@ -37,15 +42,22 @@
   right 0
   top 0
   padding 0 1.8rem
+  .search
+    line-height 3.2rem
+    color #b7b7b7
+    background-color #f5f5f5
+    border-radius 1.6rem
+    .iconfont
+      padding 0 0.6rem 0 0.8rem
+    &__font
+      font-size 1.4rem
   .position
     padding 1.6rem 2.4rem 1.6rem 0
     color $content-fontcolor
     font-size 1.6rem
     line-height 2.2rem
     position relative
-    overflow hidden
-    white-space nowrap
-    text-overflow ellipsis
+    ellipsis()
     .bell__icon
       font-size 2rem
       position absolute
