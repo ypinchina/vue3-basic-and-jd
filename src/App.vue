@@ -56,6 +56,21 @@
       </div>
     </div>
     <div class="gap"></div>
+    <div class="nearby">
+      <h3 class="nearby__title">附近店铺</h3>
+      <div class="nearby__item">
+        <img src="http://www.dell-lee.com/imgs/vue3/near.png" alt="" class="nearby__item__img">
+        <div class="nearby__content">
+          <div class="nearby__content__title">沃尔玛</div>
+          <div class="nearby__content__tags">
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+          </div>
+          <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="docker">
     <div class="docker__item docker__item--active">
@@ -102,6 +117,19 @@
     background-color #f1f1f1
     height 1rem
     margin 0 -1.8rem
+  .nearby
+    &__content
+      flex 1
+    &__title
+      margin 1.6rem 0 0.2rem 0
+      font-size 1.8rem
+      font-weight normal
+      color $content-fontcolor
+    &__item
+      display flex
+      &__img
+        width 5.6rem
+        height 5.6rem
   .icons
     display flex
     flex-wrap wrap
@@ -145,7 +173,7 @@
   left 0
   bottom 0
   height 4.9rem
-  border-top 1px solid #ccc
+  border-top 1px solid #f1f1f1
   display flex
   padding 0 1.8rem
   box-sizing border-box
