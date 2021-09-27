@@ -69,6 +69,61 @@
           </div>
           <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
         </div>
+      </div>      <div class="nearby__item">
+        <img src="http://www.dell-lee.com/imgs/vue3/near.png" alt="" class="nearby__item__img">
+        <div class="nearby__content">
+          <div class="nearby__content__title">沃尔玛</div>
+          <div class="nearby__content__tags">
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+          </div>
+          <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
+        </div>
+      </div>      <div class="nearby__item">
+        <img src="http://www.dell-lee.com/imgs/vue3/near.png" alt="" class="nearby__item__img">
+        <div class="nearby__content">
+          <div class="nearby__content__title">沃尔玛</div>
+          <div class="nearby__content__tags">
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+          </div>
+          <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
+        </div>
+      </div>      <div class="nearby__item">
+        <img src="http://www.dell-lee.com/imgs/vue3/near.png" alt="" class="nearby__item__img">
+        <div class="nearby__content">
+          <div class="nearby__content__title">沃尔玛</div>
+          <div class="nearby__content__tags">
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+          </div>
+          <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
+        </div>
+      </div>      <div class="nearby__item">
+        <img src="http://www.dell-lee.com/imgs/vue3/near.png" alt="" class="nearby__item__img">
+        <div class="nearby__content">
+          <div class="nearby__content__title">沃尔玛</div>
+          <div class="nearby__content__tags">
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+          </div>
+          <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
+        </div>
+      </div>      <div class="nearby__item">
+        <img src="http://www.dell-lee.com/imgs/vue3/near.png" alt="" class="nearby__item__img">
+        <div class="nearby__content">
+          <div class="nearby__content__title">沃尔玛</div>
+          <div class="nearby__content__tags">
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+            <span class="nearby__content__tag">月售1万+</span>
+          </div>
+          <p class="nearby__content__heightline">VIP尊享满89元减4元运费券（每月3张）</p>
+        </div>
       </div>
     </div>
   </div>
@@ -103,6 +158,7 @@
   right 0
   top 0
   padding 0 1.8rem
+  overflow-y auto
   .search
     line-height 3.2rem
     color #b7b7b7
@@ -114,12 +170,30 @@
     &__font
       font-size 1.4rem
   .gap
-    background-color #f1f1f1
+    background-color $content-bgColor
     height 1rem
     margin 0 -1.8rem
   .nearby
     &__content
       flex 1
+      padding-bottom 1.2rem
+      border-bottom 1px solid $content-bgColor
+      &__title
+        line-height 2.2rem
+        font-size 1.6rem
+        color $content-fontcolor
+      &__tags
+        line-height 1.8rem
+        font-size 1.3rem
+        color $content-fontcolor
+        margin-top .8rem
+      &__tag
+          margin-right 1.6rem
+      &__heightline
+        color #e93b3b
+        line-height 1.8rem
+        font-size 1.3rem
+        margin 0.8rem 0 0 0
     &__title
       margin 1.6rem 0 0.2rem 0
       font-size 1.8rem
@@ -127,9 +201,11 @@
       color $content-fontcolor
     &__item
       display flex
+      padding-top 1.2rem
       &__img
         width 5.6rem
         height 5.6rem
+        margin-right 1.6rem
   .icons
     display flex
     flex-wrap wrap
@@ -173,7 +249,7 @@
   left 0
   bottom 0
   height 4.9rem
-  border-top 1px solid #f1f1f1
+  border-top 1px solid $content-bgColor
   display flex
   padding 0 1.8rem
   box-sizing border-box
