@@ -1,24 +1,32 @@
 <!--  -->
 <template>
   <div class="docker">
-    <div class="docker__item docker__item--active">
-      <div class="iconfont">&#xe6f1;</div>
-      <div class="docker__title">首页</div>
-    </div>
-    <div class="docker__item">
-      <div class="iconfont">&#xe62f;</div>
-      <div class="docker__title">购物车</div>
-    </div>
-    <div class="docker__item">
-      <div class="iconfont">&#xe612;</div>
-      <div class="docker__title">订单</div>
-    </div>
-    <div class="docker__item">
-      <div class="iconfont">&#xe641;</div>
-      <div class="docker__title">我的</div>
+    <div class="docker__item" v-for="(item, index) in menuList" :key="index" :class="{'docker__item--active': index == 0}">
+      <div class="iconfont" v-html="item.icon" />
+      <div class="docker__title">{{ item.name }}</div>
     </div>
   </div>
 </template>
+<script>
+export default {
+  setup () {
+    const menuList = [{
+      name: '首页',
+      icon: '&#xe6f1;'
+    }, {
+      name: '购物车',
+      icon: '&#xe62f;'
+    }, {
+      name: '订单',
+      icon: '&#xe612;'
+    }, {
+      name: '我的',
+      icon: '&#xe612;'
+    }]
+    return { menuList }
+  }
+}
+</script>
 
 <style lang="stylus" scoped>
 @import '../style/viriables.styl'
