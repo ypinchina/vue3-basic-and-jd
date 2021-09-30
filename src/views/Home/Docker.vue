@@ -29,7 +29,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../style/viriables.styl'
+@import '../../style/viriables.styl'
 .docker
   color $content-fontcolor
   width 100%

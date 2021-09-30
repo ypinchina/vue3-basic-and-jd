@@ -65,8 +65,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../style/viriables.styl'
-@import '../style/mixins.styl'
+@import '../../style/viriables.styl'
+@import '../../style/mixins.styl'
 .top-container
   .search
     line-height 3.2rem

@@ -55,7 +55,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-@import '../style/viriables.styl'
+@import '../../style/viriables.styl'
 .nearby
   &__content
     flex 1
