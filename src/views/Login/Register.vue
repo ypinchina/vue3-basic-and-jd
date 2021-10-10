@@ -4,8 +4,9 @@
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
     <div class="wrapper__input"><input placeholder="请输入手机号" class="wrapper__input__content" type="text"></div>
     <div class="wrapper__input"><input placeholder="请输入密码" class="wrapper__input__content" type="text"></div>
-    <div class="wrapper__login-button" @click="login">登录</div>
-    <div class="wrapper__login-link" @click="backRegister">注册</div>
+    <div class="wrapper__input"><input placeholder="请确认输入密码" class="wrapper__input__content" type="text"></div>
+    <div class="wrapper__login-button" @click="register">注册</div>
+    <div class="wrapper__login-link" @click="backLogin">已有账号？立即登录</div>
   </div>
 </template>
 
@@ -14,14 +15,14 @@ import { useRouter } from 'vue-router'
 export default {
   setup () {
     const router = useRouter()
-    const login = () => {
+    const register = () => {
       localStorage.isLogin = true
       router.push({ name: 'Home' })
     }
-    const backRegister = () => {
-      router.push({ name: 'Register' })
+    const backLogin = () => {
+      router.push({ name: 'Login' })
     }
-    return { login, backRegister }
+    return { register, backLogin }
   }
 }
 </script>
