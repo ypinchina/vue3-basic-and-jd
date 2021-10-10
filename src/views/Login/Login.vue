@@ -4,13 +4,23 @@
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
     <div class="wrapper__input"><input placeholder="请输入手机号" class="wrapper__input__content" type="text"></div>
     <div class="wrapper__input"><input placeholder="请输入密码" class="wrapper__input__content" type="text"></div>
-    <div class="wrapper__login-button">登录</div>
+    <div class="wrapper__login-button" @click="login">登录</div>
     <div class="wrapper__login-link">注册</div>
   </div>
 </template>
 
 <script>
-export default {}
+import { useRouter } from 'vue-router'
+export default {
+  setup () {
+    const router = useRouter()
+    const login = () => {
+      localStorage.isLogin = true
+      router.push({ name: 'Home' })
+    }
+    return { login }
+  }
+}
 </script>
 <style scoped lang="stylus">
 @import '../../style/viriables.styl'
