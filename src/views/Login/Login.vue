@@ -15,18 +15,24 @@ import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 export default {
   setup () {
-    const data = reactive()
-    const { username, password } = data
+    const data = reactive({
+      username: '',
+      password: ''
+    })
     const router = useRouter()
-    async const login = () => {
-      const result = await axios('', {
-        username, password
-      })
-      if (!result?.data?.error) {
-        localStorage.isLogin = true
-        router.push({ name: 'Home' })
-      } else {
-        alert('登录失败')
+    const login = async () => {
+      try {
+        const result = await axios.post('/api/user/login', {
+          username: data.username, password: data.password
+        })
+        if (result?.data?.errno === 0) {
+          localStorage.isLogin = true
+          router.push({ name: 'Home' })
+        } else {
+          alert('登录失败')
+        }
+      } catch (e) {
+        alert('错误！--->' + e)
       }
     }
     const backRegister = () => {
