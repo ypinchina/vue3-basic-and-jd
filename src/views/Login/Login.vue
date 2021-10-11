@@ -2,26 +2,37 @@
 <template>
   <div class="wrapper">
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
-    <div class="wrapper__input"><input placeholder="请输入手机号" class="wrapper__input__content" type="text"></div>
-    <div class="wrapper__input"><input placeholder="请输入密码" class="wrapper__input__content" type="text"></div>
+    <div class="wrapper__input"><input placeholder="请输入手机号" v-model="data.username" class="wrapper__input__content" type="text"></div>
+    <div class="wrapper__input"><input placeholder="请输入密码" v-model="data.password" class="wrapper__input__content" type="text"></div>
     <div class="wrapper__login-button" @click="login">登录</div>
     <div class="wrapper__login-link" @click="backRegister">注册</div>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { reactive } from 'vue'
 export default {
   setup () {
+    const data = reactive()
+    const { username, password } = data
     const router = useRouter()
-    const login = () => {
-      localStorage.isLogin = true
-      router.push({ name: 'Home' })
+    async const login = () => {
+      const result = await axios('', {
+        username, password
+      })
+      if (!result?.data?.error) {
+        localStorage.isLogin = true
+        router.push({ name: 'Home' })
+      } else {
+        alert('登录失败')
+      }
     }
     const backRegister = () => {
       router.push({ name: 'Register' })
     }
-    return { login, backRegister }
+    return { login, backRegister, data }
   }
 }
 </script>
