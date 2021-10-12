@@ -6,19 +6,23 @@
     <div class="wrapper__input"><input placeholder="请输入密码" v-model="data.password" class="wrapper__input__content" type="text"></div>
     <div class="wrapper__login-button" @click="login">登录</div>
     <div class="wrapper__login-link" @click="backRegister">注册</div>
+    <Toast :message="toastData.toastMessage" :isShow="toastData.toastFlag"></Toast>
   </div>
 </template>
 
 <script>
+import Toast, { useToastEffect } from '@/components/toast'
 import post from '@/utils/request'
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 export default {
+  components: { Toast },
   setup () {
     const data = reactive({
       username: '',
       password: ''
     })
+    const { toastData, changeToastDate } = useToastEffect()
     const router = useRouter()
     const login = async () => {
       try {
@@ -29,16 +33,16 @@ export default {
           localStorage.isLogin = true
           router.push({ name: 'Home' })
         } else {
-          alert('登录失败')
+          changeToastDate('登录失败')
         }
       } catch (e) {
-        alert('错误！--->' + e)
+        changeToastDate('错误，' + e)
       }
     }
     const backRegister = () => {
       router.push({ name: 'Register' })
     }
-    return { login, backRegister, data }
+    return { login, backRegister, data, toastData }
   }
 }
 </script>
