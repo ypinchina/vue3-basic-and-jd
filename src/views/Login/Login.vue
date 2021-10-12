@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import post from '@/utils/request'
 import { useRouter } from 'vue-router'
 import { reactive } from 'vue'
 export default {
@@ -22,7 +22,7 @@ export default {
     const router = useRouter()
     const login = async () => {
       try {
-        const result = await axios.post('/api/user/login', {
+        const result = await post('/api/user/login', {
           username: data.username, password: data.password
         })
         if (result?.data?.errno === 0) {
