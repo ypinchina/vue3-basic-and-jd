@@ -2,28 +2,66 @@
 <template>
   <div class="wrapper">
     <img class="wrapper__img" src="http://www.dell-lee.com/imgs/vue3/user.png" alt="">
-    <div class="wrapper__input"><input placeholder="请输入手机号" class="wrapper__input__content" type="text"></div>
-    <div class="wrapper__input"><input placeholder="请输入密码" class="wrapper__input__content" type="text"></div>
-    <div class="wrapper__input"><input placeholder="请确认输入密码" class="wrapper__input__content" type="text"></div>
+    <div class="wrapper__input"><input placeholder="请输入手机号" v-model="username" class="wrapper__input__content" type="text"></div>
+    <div class="wrapper__input"><input placeholder="请输入密码" v-model="password" class="wrapper__input__content" type="text"></div>
+    <div class="wrapper__input"><input placeholder="请确认输入密码" v-model="ensurement" class="wrapper__input__content" type="text"></div>
     <div class="wrapper__login-button" @click="register">注册</div>
     <div class="wrapper__login-link" @click="backLogin">已有账号？立即登录</div>
+    <Toast :message="toastMessage" :isShow="toastFlag"></Toast>
   </div>
 </template>
 
 <script>
+import Toast, { useToastEffect } from '@/components/toast'
 import { useRouter } from 'vue-router'
+import { reactive, toRefs } from 'vue'
+import post from '@/utils/request'
+const useRegisterEffect = (changeToastDate) => {
+  const router = useRouter()
+  const data = reactive({
+    username: '',
+    password: '',
+    ensurement: ''
+  })
+  const register = async () => {
+    if (!data.username || !data.password) {
+      changeToastDate('账号或密码不能为空')
+      return
+    }
+    if (data.password !== data.ensurement) {
+      changeToastDate('密码和确认密码输入不一致')
+      return
+    }
+    try {
+      const result = await post('/api/user/register', {
+        username: data.username,
+        password: data.password
+      })
+      if (result?.data?.errno === 0) {
+        router.push({ name: 'Login' })
+        changeToastDate('注册成功')
+      } else {
+        changeToastDate('注册失败')
+      }
+    } catch (e) {
+      changeToastDate('错误，' + e)
+    }
+  }
+  const { username, password, ensurement } = toRefs(data)
+  return { register, username, password, ensurement }
+}
 export default {
   setup () {
     const router = useRouter()
-    const register = () => {
-      localStorage.isLogin = true
-      router.push({ name: 'Home' })
-    }
+    const { toastMessage, toastFlag, changeToastDate } = useToastEffect()
+    const { register, password, username, ensurement } = useRegisterEffect(changeToastDate)
     const backLogin = () => {
+      // 点击登录按钮返回登录的方法
       router.push({ name: 'Login' })
     }
-    return { register, backLogin }
-  }
+    return { register, backLogin, toastMessage, toastFlag, password, username, ensurement }
+  },
+  components: { Toast }
 }
 </script>
 <style scoped lang="stylus">

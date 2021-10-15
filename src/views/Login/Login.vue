@@ -21,11 +21,11 @@ const useLoginEffect = (changeToastDate) => {
     username: '',
     password: ''
   })
-  const { username, password } = toRefs(data)
   const login = async () => {
     try {
-      const result = await post('/api/u1ser/login', {
-        username, password
+      const result = await post('/api/user/login', {
+        username: data.username,
+        password: data.password
       })
       if (result?.data?.errno === 0) {
         localStorage.isLogin = true
@@ -37,9 +37,10 @@ const useLoginEffect = (changeToastDate) => {
       changeToastDate('错误，' + e)
     }
   }
+  const { username, password } = toRefs(data)
   return { login, username, password }
 }
-const useRegiterEffect = () => {
+const useRegisterEffect = () => {
   const router = useRouter()
   const backRegister = () => {
     router.push({ name: 'Register' })
@@ -51,7 +52,7 @@ export default {
   setup () {
     const { toastMessage, toastFlag, changeToastDate } = useToastEffect()
     const { login, username, password } = useLoginEffect(changeToastDate)
-    const { backRegister } = useRegiterEffect()
+    const { backRegister } = useRegisterEffect()
     return { login, backRegister, username, password, toastMessage, toastFlag }
   }
 }

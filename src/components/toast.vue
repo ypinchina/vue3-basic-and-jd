@@ -10,15 +10,15 @@ export const useToastEffect = () => {
     toastFlag: false,
     toastMessage: ''
   })
-  let { toastFlag, toastMessage } = toRefs(toastData)
   const changeToastDate = (message) => {
-    toastFlag = true
-    toastMessage = message
+    toastData.toastFlag = true
+    toastData.toastMessage = message
     setTimeout(() => {
-      toastFlag = false
-      toastMessage = ''
+      toastData.toastFlag = false
+      toastData.toastMessage = ''
     }, 3000)
   }
+  const { toastFlag, toastMessage } = toRefs(toastData)
   return { toastFlag, toastMessage, changeToastDate }
 }
 
@@ -47,7 +47,7 @@ export default {
   text-align center
   height 4rem
   line-height 4rem
-  width 6.5rem
+  padding 0 2rem
   font-size 0.12rem
   border-radius 6px
 </style>
