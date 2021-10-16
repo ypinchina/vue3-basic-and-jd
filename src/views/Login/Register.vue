@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import Toast, { useToastEffect } from '@/components/toast'
+import Toast, { useToastEffect } from '@/components/Toast'
 import { useRouter } from 'vue-router'
 import { reactive, toRefs } from 'vue'
-import post from '@/utils/request'
+import { post } from '@/utils/request'
 const useRegisterEffect = (changeToastDate) => {
   const router = useRouter()
   const data = reactive({
@@ -37,7 +37,7 @@ const useRegisterEffect = (changeToastDate) => {
         username: data.username,
         password: data.password
       })
-      if (result?.data?.errno === 0) {
+      if (result?.errno === 0) {
         router.push({ name: 'Login' })
         changeToastDate('注册成功')
       } else {

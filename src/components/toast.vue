@@ -1,6 +1,6 @@
 <!--  -->
 <template>
-  <div class="toast" v-if="isShow">{{ message }}</div>
+  <div class="Toast" v-if="isShow">{{ message }}</div>
 </template>
 
 <script>
@@ -23,7 +23,7 @@ export const useToastEffect = () => {
 }
 
 export default {
-  name: 'toast',
+  name: 'Toast',
   props: {
     message: {
       type: String,
@@ -37,7 +37,7 @@ export default {
 }
 </script>
 <style scoped lang='stylus'>
-.toast
+.Toast
   position absolute
   left 50%
   top 50%

@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Toast, { useToastEffect } from '@/components/toast'
-import post from '@/utils/request'
+import Toast, { useToastEffect } from '@/components/Toast'
+import { post } from '@/utils/request'
 import { useRouter } from 'vue-router'
 import { reactive, toRefs } from 'vue'
 const useLoginEffect = (changeToastDate) => {
@@ -27,7 +27,7 @@ const useLoginEffect = (changeToastDate) => {
         username: data.username,
         password: data.password
       })
-      if (result?.data?.errno === 0) {
+      if (result?.errno === 0) {
         localStorage.isLogin = true
         router.push({ name: 'Home' })
       } else {
