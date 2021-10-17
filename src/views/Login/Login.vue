@@ -48,6 +48,7 @@ const useRegisterEffect = () => {
   return { backRegister }
 }
 export default {
+  name: 'login',
   components: { Toast },
   setup () {
     const { toastMessage, toastFlag, changeToastDate } = useToastEffect()

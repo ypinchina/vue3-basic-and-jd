@@ -5,7 +5,7 @@
         src="http://www.dell-lee.com/imgs/vue3/near.png"
         alt=""
         class="shop__img" />
-      <div class="shop__content">
+      <div class="shop__content" :class="{'shop__content--hasBorder': hasBorder ? true : false }">
         <div class="shop__content__title">{{ item.name }}</div>
         <div class="shop__content__tags">
           <span class="shop__content__tag">月售: {{ item.sales }}</span>
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  props: ['item']
+  props: ['item', 'hasBorder']
 }
 </script>
 <style lang="stylus" scoped>
@@ -36,7 +36,8 @@ export default {
   &__content
     flex 1
     padding-bottom 1.2rem
-    border-bottom 1px solid $content-bgColor
+    &--hasBorder
+      border-bottom 1px solid $content-bgColor
     &__title
       line-height 2.2rem
       font-size 1.6rem
