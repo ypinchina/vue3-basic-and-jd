@@ -17,9 +17,9 @@ const routes = [{
   name: 'Register',
   component: () => import(/* webpackChunkName: "register" */ '../views/Login/Register.vue')
 }, {
-  path: '/shop',
+  path: '/shop/:id',
   name: 'Shop',
-  component: () => import(/* webpackChunkName: "shop" */ '../views/Home/Shop.vue')
+  component: () => import(/* webpackChunkName: "shop" */ '../views/Shop/Shop.vue')
 }]
 
 const router = createRouter({

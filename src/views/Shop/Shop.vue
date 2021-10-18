@@ -41,7 +41,7 @@ export default {
 .wrapper
   padding 0 1.8rem
   .search
-    margin 2rem auto 1.6rem
+    margin 1.4rem auto 0.4rem
     display flex
     line-height 3.2rem
     &__back
@@ -53,7 +53,7 @@ export default {
       line-height 3.2rem
       display flex
       border-radius 1.6rem
-      background-color #f5f5f5
+      background-color $search-bgColor
       overflow hidden
       &__icon
         width 4.4rem
@@ -64,11 +64,11 @@ export default {
         width 100%
         display inline-block
         border none
-        background-color #f5f5f5
+        background-color $search-bgColor
         outline none
         padding-right 2rem
-        color $content-fontcolor
+        color $search-fontcolor
         font-size 1.4rem
         &::placeholder
-          color $content-fontcolor
+          color $search-fontcolor
 </style>

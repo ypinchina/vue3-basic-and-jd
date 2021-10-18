@@ -70,9 +70,9 @@ export default {
 .top-container
   .search
     line-height 3.2rem
-    color #b7b7b7
+    color $search-fontcolor
     margin-bottom 1.4rem
-    background-color #f5f5f5
+    background-color $search-bgColor
     border-radius 1.6rem
     .iconfont
       padding 0 0.6rem 0 0.8rem
