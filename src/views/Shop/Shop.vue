@@ -8,30 +8,45 @@
         <input class="search__content__input" placeholder="请输入商品名称" />
       </div>
     </div>
-    <ShopInfo :item="item" />
+    <ShopInfo :item="item" v-show="item.imgUrl" />
   </div>
 </template>
 
 <script>
 import ShopInfo from '@/components/Shop'
-import { useRouter } from 'vue-router'
+import { get } from '@/utils/request'
+import { reactive, toRefs } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+// 获取商店店铺详情信息的逻辑处理
+const useShopInfoEffect = () => {
+  const data = reactive({
+    item: {}
+  })
+  const route = useRoute()
+  const getShopInfo = async () => {
+    const result = await get('/api/shop/' + route.params.id)
+    if (result?.errno === 0 && result?.data) {
+      data.item = result.data
+    }
+  }
+  const { item } = toRefs(data)
+  return { getShopInfo, item }
+}
+// 返回到首页的点击逻辑
+const useBackEffect = () => {
+  const router = useRouter()
+  const handleBackClick = () => {
+    router.back()
+  }
+  return { handleBackClick }
+}
 export default {
   name: 'Shop',
   components: { ShopInfo },
   setup () {
-    const router = useRouter()
-    const handleBackClick = () => {
-      router.back()
-    }
-    const item = {
-      expressLimit: 0,
-      expressPrice: 5,
-      imgUrl: 'http://www.dell-lee.com/imgs/vue3/near.png',
-      name: '沃尔玛',
-      sales: 10000,
-      slogan: 'VIP尊享满89元减4元运费券',
-      _id: '1'
-    }
+    const { handleBackClick } = useBackEffect()
+    const { getShopInfo, item } = useShopInfoEffect()
+    getShopInfo()
     return { item, handleBackClick }
   }
 }
