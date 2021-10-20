@@ -9,11 +9,13 @@
       </div>
     </div>
     <ShopInfo :item="item" v-show="item.imgUrl" />
+    <Content />
   </div>
 </template>
 
 <script>
 import ShopInfo from '@/components/Shop'
+import Content from './Content'
 import { get } from '@/utils/request'
 import { reactive, toRefs } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
@@ -42,7 +44,7 @@ const useBackEffect = () => {
 }
 export default {
   name: 'Shop',
-  components: { ShopInfo },
+  components: { ShopInfo, Content },
   setup () {
     const { handleBackClick } = useBackEffect()
     const { getShopInfo, item } = useShopInfoEffect()
