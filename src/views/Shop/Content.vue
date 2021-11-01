@@ -13,7 +13,7 @@
           <h4 class="product__item__title">番茄250g/份</h4>
           <p class="product__item__sales">月售10件</p>
           <div class="product__item__price">
-            <span class="product__item__price">&yen;33.6</span>
+            <span class="product__item__yen">&yen;33.6</span>
             <span class="product__item__origin">&yen;66.6</span>
           </div>
         </div>
