@@ -13,7 +13,7 @@
           <h4 class="product__item__title">番茄250g/份</h4>
           <p class="product__item__sales">月售10件</p>
           <div class="product__item__price">
-            <span class="product__item__yen">&yen;33.6</span>
+            <span class="product__item__yen">&yen;</span>33.6
             <span class="product__item__origin">&yen;66.6</span>
           </div>
         </div>
@@ -35,6 +35,7 @@ export default {
 }
 </script>
 <style scoped lang="stylus">
+@import '../../style/viriables.styl'
 .content
   display flex
   position absolute
@@ -49,21 +50,39 @@ export default {
       display flex
       padding 1.2rem 0
       margin 0 1.6rem
-      border-bottom .1rem solid #f1f1f1
+      border-bottom .1rem solid $content-bgColor
+      &__detail
+      &__yen
+        font-size 1.2rem
+      &__origin
+        color #999
+        line-height 2rem
+        text-decoration line-through
+        font-size 1.2rem
+        margin-left .6rem
       &__img
         width 6.8rem
         height 6.8rem
+        margin-right 1.6rem
+      &__price
+      &__sales
+        margin 0.6rem 0
+      &__title
+        margin 0
+        font-size 1.4rem
+        line-height 2rem
+        color $content-fontcolor
   .category
     width 7.6rem
     height 100%
     overflow-y scroll
-    background-color #f5f5f5
+    background-color $search-bgColor
     &__item
       height 4rem
       line-height 4rem
       text-align center
       font-size 14px
-      color #333
+      color $content-fontcolor
       &--active
         background-color #fff
 </style>
