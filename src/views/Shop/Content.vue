@@ -17,6 +17,11 @@
             <span class="product__item__origin">&yen;66.6</span>
           </div>
         </div>
+        <div class="product__number">
+          <span class="product__number__minus">-</span>
+          <span class="product__number__count">0</span>
+          <span class="product__number__plus">+</span>
+        </div>
       </div>
     </div>
   </div>
@@ -47,11 +52,31 @@ export default {
     flex 1
     overflow-y scroll
     &__item
+      position relative
       display flex
       padding 1.2rem 0
       margin 0 1.6rem
       border-bottom .1rem solid $content-bgColor
-      &__detail
+      .product__number
+        position absolute
+        right 0
+        bottom 1.2rem
+        &__count
+          margin 0 1rem
+        &__plus,&__minus
+          width 2rem
+          height 2rem
+          font-size 2rem
+          text-align center
+          line-height 1.6rem
+          display inline-block
+          border-radius 50%
+        &__minus
+          border 1px solid #666
+          color #666
+        &__plus
+          background-color #0091ff
+          color #fff
       &__yen
         font-size 1.2rem
       &__origin
@@ -65,12 +90,20 @@ export default {
         height 6.8rem
         margin-right 1.6rem
       &__price
-      &__sales
-        margin 0.6rem 0
-      &__title
         margin 0
         font-size 1.4rem
         line-height 2rem
+        color #e93b3b
+      &__yen
+        font-size 1.2rem
+      &__sales
+        margin 0.6rem 0
+        font-size 1.2rem
+        color $content-fontcolor
+      &__title
+        margin 0
+        font-size 1.4rem
+        line-height 1.6rem
         color $content-fontcolor
   .category
     width 7.6rem
