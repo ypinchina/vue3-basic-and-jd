@@ -97,10 +97,10 @@ export default {
   &__login-button
     margin 3.2rem 4rem 1.6rem 4rem
     line-height 4.8rem
-    background #0091FF
+    background $btnBlueColor
     box-shadow 0 0.4rem 0.8rem 0 rgba(0,145,255,0.32)
     border-radius 0.4rem
-    color #fff
+    color $bgColor
     font-size 1.6rem
     text-align center
   &__login-link

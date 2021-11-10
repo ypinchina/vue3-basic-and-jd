@@ -41,6 +41,7 @@ export default {
 </script>
 <style scoped lang="stylus">
 @import '../../style/viriables.styl'
+@import '../../style/mixins.styl'
 .content
   display flex
   position absolute
@@ -57,6 +58,8 @@ export default {
       padding 1.2rem 0
       margin 0 1.6rem
       border-bottom .1rem solid $content-bgColor
+      &__detail
+        overflow hidden
       .product__number
         position absolute
         right 0
@@ -72,15 +75,15 @@ export default {
           display inline-block
           border-radius 50%
         &__minus
-          border 1px solid #666
-          color #666
+          border 1px solid $medium-fontColor
+          color $medium-fontColor
         &__plus
-          background-color #0091ff
-          color #fff
+          background-color $btnBlueColor
+          color $bgColor
       &__yen
         font-size 1.2rem
       &__origin
-        color #999
+        color $line-fontColor
         line-height 2rem
         text-decoration line-through
         font-size 1.2rem
@@ -93,7 +96,7 @@ export default {
         margin 0
         font-size 1.4rem
         line-height 2rem
-        color #e93b3b
+        color $heightLine-fontColor
       &__yen
         font-size 1.2rem
       &__sales
@@ -105,6 +108,7 @@ export default {
         font-size 1.4rem
         line-height 1.6rem
         color $content-fontcolor
+        ellipsis()
   .category
     width 7.6rem
     height 100%
@@ -117,5 +121,5 @@ export default {
       font-size 14px
       color $content-fontcolor
       &--active
-        background-color #fff
+        background-color $bgColor
 </style>
