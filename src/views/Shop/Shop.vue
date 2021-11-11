@@ -10,10 +10,12 @@
     </div>
     <ShopInfo :item="item" v-show="item.imgUrl" />
     <Content />
+    <Cart />
   </div>
 </template>
 
 <script>
+import Cart from './Cart'
 import ShopInfo from '@/components/Shop'
 import Content from './Content'
 import { get } from '@/utils/request'
@@ -44,7 +46,7 @@ const useBackEffect = () => {
 }
 export default {
   name: 'Shop',
-  components: { ShopInfo, Content },
+  components: { ShopInfo, Content, Cart },
   setup () {
     const { handleBackClick } = useBackEffect()
     const { getShopInfo, item } = useShopInfoEffect()
