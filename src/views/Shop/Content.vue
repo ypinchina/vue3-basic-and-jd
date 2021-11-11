@@ -2,19 +2,21 @@
 <template>
   <div class="content">
     <div class="category">
-      <div class="category__item" v-for="(item, index) in categoryList" :key="index">
-        {{ item }}
+      <div v-for="(item, index) in categoryList"
+      :class="{'category__item--active': index == activeIndex, 'category__item': true }"
+      :key="item.name" @click="selectSaleMenu(index)">
+        {{ item.name }}
       </div>
     </div>
     <div class="product">
-      <div class="product__item">
-        <img src="http://www.dell-lee.com/imgs/vue3/near.png" class="product__item__img" alt="">
+      <div class="product__item" v-for="item in contentList" :key="item._id">
+        <img :src="item.imgUrl" class="product__item__img" alt="">
         <div class="product__item__detail">
-          <h4 class="product__item__title">番茄250g/份</h4>
-          <p class="product__item__sales">月售10件</p>
+          <h4 class="product__item__title">{{ item.name }}</h4>
+          <p class="product__item__sales">月售：{{ item.sales }} 件</p>
           <div class="product__item__price">
-            <span class="product__item__yen">&yen;</span>33.6
-            <span class="product__item__origin">&yen;66.6</span>
+            <span class="product__item__yen">&yen;</span>{{ item.price }}
+            <span class="product__item__origin">&yen;{{ item.oldPrice }}</span>
           </div>
         </div>
         <div class="product__number">
@@ -28,14 +30,37 @@
 </template>
 
 <script>
-
+import { reactive, toRefs, watchEffect, ref } from 'vue'
+import { get } from '@/utils/request'
+import { useRoute } from 'vue-router'
+const categoryList = [{ name: '全部商品', tab: 'all' },
+  { name: '秒杀', tab: 'seckill' },
+  { name: '新鲜水果', tab: 'fruit' }]
+const tabEffect = () => {
+  const activeIndex = ref(0)
+  const selectSaleMenu = (index) => {
+    activeIndex.value = index
+  }
+  return { selectSaleMenu, activeIndex }
+}
+const getDataListEffect = (activeIndex) => {
+  const route = useRoute()
+  const idRoute = route.params.id
+  const list = reactive({ contentList: [] })
+  const getDataList = async () => {
+    const result = await get(`/api/shop/${idRoute}/products?tab=${activeIndex.value}`)
+    if (!result?.errno && result?.data?.length) list.contentList = result.data
+  }
+  watchEffect(() => { getDataList() })
+  return { getDataList, list }
+}
 export default {
   name: 'Content',
   setup () {
-    const categoryList = [
-      '全部商品', '秒杀', '新鲜水果', '休闲食品', '时令蔬菜', '肉蛋家禽'
-    ]
-    return { categoryList }
+    const { selectSaleMenu, activeIndex } = tabEffect()
+    const { getDataList, list } = getDataListEffect(activeIndex)
+    const { contentList } = toRefs(list)
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList }
   }
 }
 </script>
