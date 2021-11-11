@@ -10,7 +10,7 @@
         总计：<span class="check__info__price">&yen;19</span>
       </div>
       <div class="check__btn">
-        购买
+        去结算
       </div>
     </div>
   </div>

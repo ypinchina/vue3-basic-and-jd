@@ -21,8 +21,8 @@
         </div>
         <div class="product__number">
           <span class="product__number__minus">-</span>
-          <span class="product__number__count">0</span>
-          <span class="product__number__plus">+</span>
+          <span class="product__number__count">{{ cartList?.[routeId]?.[item._id]?.count || 0 }}</span>
+          <span class="product__number__plus" @click="addProduct(item._id, item)">+</span>
         </div>
       </div>
     </div>
@@ -33,34 +33,49 @@
 import { reactive, toRefs, watchEffect, ref } from 'vue'
 import { get } from '@/utils/request'
 import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 const categoryList = [{ name: '全部商品', tab: 'all' },
   { name: '秒杀', tab: 'seckill' },
   { name: '新鲜水果', tab: 'fruit' }]
 const tabEffect = () => {
+  // 切换商铺下对应栏目的处理逻辑
   const activeIndex = ref(0)
   const selectSaleMenu = (index) => {
     activeIndex.value = index
   }
   return { selectSaleMenu, activeIndex }
 }
-const getDataListEffect = (activeIndex) => {
-  const route = useRoute()
-  const idRoute = route.params.id
+const getDataListEffect = (activeIndex, routeId) => {
+  // 获取商铺下对应栏目的商铺列表的处理逻辑
+
   const list = reactive({ contentList: [] })
   const getDataList = async () => {
-    const result = await get(`/api/shop/${idRoute}/products?tab=${activeIndex.value}`)
+    const result = await get(`/api/shop/${routeId}/products?tab=${activeIndex.value}`)
     if (!result?.errno && result?.data?.length) list.contentList = result.data
   }
   watchEffect(() => { getDataList() })
   return { getDataList, list }
 }
+const cartEffect = (routeId) => {
+  // 对购物车添加商品或减少商品的逻辑
+  const store = useStore()
+  const { cartList } = toRefs(store.state)
+  const addProduct = (productId, product) => {
+    // 点击商品的 + 号按钮的方法
+    store.commit('changeCartList', { shopId: routeId, productId, product })
+  }
+  return { addProduct, cartList }
+}
 export default {
   name: 'Content',
   setup () {
     const { selectSaleMenu, activeIndex } = tabEffect()
-    const { getDataList, list } = getDataListEffect(activeIndex)
+    const route = useRoute()
+    const routeId = route.params.id
+    const { addProduct, cartList } = cartEffect(routeId)
+    const { getDataList, list } = getDataListEffect(activeIndex, routeId)
     const { contentList } = toRefs(list)
-    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList }
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, addProduct, cartList, routeId }
   }
 }
 </script>

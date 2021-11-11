@@ -22,9 +22,6 @@ export default {
         if (!result?.errno && result?.data?.length) {
           nearbyList.value = result.data || []
         }
-        // result.then(res => {
-        //   console.log(res)
-        // })
       } catch (e) {
         console.log(e)
       }
