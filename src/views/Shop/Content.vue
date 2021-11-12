@@ -21,7 +21,7 @@
         </div>
         <div class="product__number">
           <span class="product__number__minus" @click="changeProductNum(item._id, item, -1)">-</span>
-          <span class="product__number__count">{{ cartList?.[routeId]?.[item._id]?.count || 0 }}</span>
+          <span class="product__number__count">{{ item.count || 0 }}</span>
           <span class="product__number__plus" @click="changeProductNum(item._id, item, 1)">+</span>
         </div>
       </div>
@@ -33,7 +33,7 @@
 import { reactive, toRefs, watchEffect, ref } from 'vue'
 import { get } from '@/utils/request'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { cartEffect } from './cartEffect'
 const categoryList = [{ name: '全部商品', tab: 'all' },
   { name: '秒杀', tab: 'seckill' },
   { name: '新鲜水果', tab: 'fruit' }]
@@ -56,26 +56,16 @@ const getDataListEffect = (activeIndex, routeId) => {
   watchEffect(() => { getDataList() })
   return { getDataList, list }
 }
-const cartEffect = (routeId) => {
-  // 对购物车添加商品或减少商品的逻辑
-  const store = useStore()
-  const { cartList } = toRefs(store.state)
-  const changeProductNum = (productId, product, num) => {
-    // 点击商品的 + 号按钮的方法
-    store.commit('changeCartList', { shopId: routeId, productId, product, num })
-  }
-  return { changeProductNum, cartList }
-}
 export default {
   name: 'Content',
   setup () {
     const { selectSaleMenu, activeIndex } = tabEffect()
     const route = useRoute()
     const routeId = route.params.id
-    const { changeProductNum, cartList } = cartEffect(routeId)
+    const { changeProductNum } = cartEffect(routeId)
     const { getDataList, list } = getDataListEffect(activeIndex, routeId)
     const { contentList } = toRefs(list)
-    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductNum, cartList, routeId }
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductNum, routeId }
   }
 }
 </script>

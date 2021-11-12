@@ -2,22 +2,24 @@
 <template>
   <div class="cart">
     <div class="product">
-      <div class="product__item" v-for="item in cartMenuProductList" :key="item._id">
-        <img :src="item.imgUrl" class="product__item__img" alt="">
-        <div class="product__item__detail">
-          <h4 class="product__item__title">{{ item.name }}</h4>
-          <p class="product__item__sales">月售：{{ item.sales }} 件</p>
-          <div class="product__item__price">
-            <span class="product__item__yen">&yen;</span>{{ item.price }}
-            <span class="product__item__origin">&yen;{{ item.oldPrice }}</span>
+      <template  v-for="item in cartMenuProductList" :key="item._id">
+        <div class="product__item" v-if="item.count > 0">
+          <img :src="item.imgUrl" class="product__item__img" alt="">
+          <div class="product__item__detail">
+            <h4 class="product__item__title">{{ item.name }}</h4>
+            <p class="product__item__sales">月售：{{ item.sales }} 件</p>
+            <div class="product__item__price">
+              <span class="product__item__yen">&yen;</span>{{ item.price }}
+              <span class="product__item__origin">&yen;{{ item.oldPrice }}</span>
+            </div>
+          </div>
+          <div class="product__number">
+            <span class="product__number__minus" @click="changeProductNum(item._id, item, -1)">-</span>
+            <span class="product__number__count">{{ item.count || 0 }}</span>
+            <span class="product__number__plus" @click="changeProductNum(item._id, item, 1)">+</span>
           </div>
         </div>
-        <div class="product__number">
-          <span class="product__number__minus" @click="changeProductNum(item._id, item, -1)">-</span>
-          <span class="product__number__count">{{ item.count || 0 }}</span>
-          <span class="product__number__plus" @click="changeProductNum(item._id, item, 1)">+</span>
-        </div>
-      </div>
+      </template>
     </div>
     <div class="check">
       <div class="check__icon">
@@ -38,12 +40,14 @@
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { computed } from 'vue'
+import { cartEffect } from './cartEffect'
 const computedResultEffect = () => {
   // 计算购物车数量和总价的逻辑处理
   const store = useStore()
   const route = useRoute()
   const { cartList } = store.state
   const routeId = route.params.id
+  const { changeProductNum } = cartEffect(routeId)
   const total = computed(() => {
     const shopInfo = cartList[routeId]
     let count = 0
@@ -70,13 +74,13 @@ const computedResultEffect = () => {
     const productList = cartList[routeId] || []
     return productList
   })
-  return { total, sum, cartMenuProductList }
+  return { total, sum, cartMenuProductList, changeProductNum }
 }
 export default {
   name: 'Cart',
   setup () {
-    const { total, sum, cartMenuProductList } = computedResultEffect()
-    return { total, sum, cartMenuProductList }
+    const { total, sum, cartMenuProductList, changeProductNum } = computedResultEffect()
+    return { total, sum, cartMenuProductList, changeProductNum }
   }
 }
 </script>
