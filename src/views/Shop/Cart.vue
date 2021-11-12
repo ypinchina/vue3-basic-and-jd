@@ -4,6 +4,7 @@
     <div class="product">
       <template  v-for="item in cartMenuProductList" :key="item._id">
         <div class="product__item" v-if="item.count > 0">
+          <span class="product__item__checkIcon iconfont">&#xe656;</span>
           <img :src="item.imgUrl" class="product__item__img" alt="">
           <div class="product__item__detail">
             <h4 class="product__item__title">{{ item.name }}</h4>
@@ -102,6 +103,11 @@ export default {
       padding 1.2rem 0
       margin 0 1.6rem
       border-bottom .1rem solid $content-bgColor
+      &__checkIcon
+        margin-right 1.6rem
+        font-size 2rem
+        color $btnBlueColor
+        line-height 5rem
       &__detail
         overflow hidden
       .product__number
