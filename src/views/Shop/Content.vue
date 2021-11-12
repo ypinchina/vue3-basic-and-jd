@@ -20,9 +20,9 @@
           </div>
         </div>
         <div class="product__number">
-          <span class="product__number__minus">-</span>
+          <span class="product__number__minus" @click="changeProductNum(item._id, item, -1)">-</span>
           <span class="product__number__count">{{ cartList?.[routeId]?.[item._id]?.count || 0 }}</span>
-          <span class="product__number__plus" @click="addProduct(item._id, item)">+</span>
+          <span class="product__number__plus" @click="changeProductNum(item._id, item, 1)">+</span>
         </div>
       </div>
     </div>
@@ -60,11 +60,11 @@ const cartEffect = (routeId) => {
   // 对购物车添加商品或减少商品的逻辑
   const store = useStore()
   const { cartList } = toRefs(store.state)
-  const addProduct = (productId, product) => {
+  const changeProductNum = (productId, product, num) => {
     // 点击商品的 + 号按钮的方法
-    store.commit('changeCartList', { shopId: routeId, productId, product })
+    store.commit('changeCartList', { shopId: routeId, productId, product, num })
   }
-  return { addProduct, cartList }
+  return { changeProductNum, cartList }
 }
 export default {
   name: 'Content',
@@ -72,10 +72,10 @@ export default {
     const { selectSaleMenu, activeIndex } = tabEffect()
     const route = useRoute()
     const routeId = route.params.id
-    const { addProduct, cartList } = cartEffect(routeId)
+    const { changeProductNum, cartList } = cartEffect(routeId)
     const { getDataList, list } = getDataListEffect(activeIndex, routeId)
     const { contentList } = toRefs(list)
-    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, addProduct, cartList, routeId }
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductNum, cartList, routeId }
   }
 }
 </script>

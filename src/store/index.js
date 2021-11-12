@@ -6,7 +6,7 @@ export default createStore({
   },
   mutations: {
     changeCartList: (state, payload) => {
-      const { shopId, productId, product } = payload
+      const { shopId, productId, product, num } = payload
       const { cartList } = state
       let shopInfo = cartList?.[shopId]
       let productInfo = shopInfo?.[productId]
@@ -17,7 +17,8 @@ export default createStore({
         productInfo = product
         productInfo.count = 0
       }
-      productInfo.count += 1
+      productInfo.count += num
+      if (productInfo.count < 0) productInfo = 0
       shopInfo[productId] = productInfo
       cartList[shopId] = shopInfo
     }
