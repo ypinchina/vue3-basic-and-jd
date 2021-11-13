@@ -18,6 +18,9 @@ export default createStore({
         productInfo.count = 0
       }
       productInfo.count += num
+      if (num > 0) {
+        productInfo.check = true
+      }
       if (productInfo.count < 0) productInfo.count = 0
       shopInfo[productId] = productInfo
       cartList[shopId] = shopInfo

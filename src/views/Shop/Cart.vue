@@ -4,7 +4,7 @@
     <div class="product">
       <template  v-for="item in cartMenuProductList" :key="item._id">
         <div class="product__item" v-if="item.count > 0">
-          <span class="product__item__checkIcon iconfont">&#xe656;</span>
+          <span class="product__item__checkIcon iconfont" v-html="item.check ? '&#xe656;' : '&#xe77d;'"></span>
           <img :src="item.imgUrl" class="product__item__img" alt="">
           <div class="product__item__detail">
             <h4 class="product__item__title">{{ item.name }}</h4>
@@ -66,7 +66,9 @@ const computedResultEffect = () => {
     if (shopInfo) {
       for (const i in shopInfo) {
         const product = shopInfo[i]
-        priceSum += product.count * product.price
+        if (product.check) {
+          priceSum += product.count * product.price
+        }
       }
     }
     return priceSum.toFixed(2)
