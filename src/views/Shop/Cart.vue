@@ -4,7 +4,8 @@
     <div class="product">
       <template  v-for="item in cartMenuProductList" :key="item._id">
         <div class="product__item" v-if="item.count > 0">
-          <span class="product__item__checkIcon iconfont" v-html="item.check ? '&#xe656;' : '&#xe77d;'"></span>
+          <span class="product__item__checkIcon iconfont"
+          v-html="item.check ? '&#xe656;' : '&#xe77d;'" @click="changeItemSelet(item._id)"></span>
           <img :src="item.imgUrl" class="product__item__img" alt="">
           <div class="product__item__detail">
             <h4 class="product__item__title">{{ item.name }}</h4>
@@ -77,13 +78,17 @@ const computedResultEffect = () => {
     const productList = cartList[routeId] || []
     return productList
   })
-  return { total, sum, cartMenuProductList, changeProductNum }
+  const changeItemSelet = (productId) => {
+    store.commit('changeItemSelet', { shopId: routeId, productId })
+  }
+  return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet }
 }
+
 export default {
   name: 'Cart',
   setup () {
-    const { total, sum, cartMenuProductList, changeProductNum } = computedResultEffect()
-    return { total, sum, cartMenuProductList, changeProductNum }
+    const { total, sum, cartMenuProductList, changeProductNum, changeItemSelet } = computedResultEffect()
+    return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet }
   }
 }
 </script>

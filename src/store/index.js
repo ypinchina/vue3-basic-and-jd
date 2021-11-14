@@ -24,6 +24,12 @@ export default createStore({
       if (productInfo.count < 0) productInfo.count = 0
       shopInfo[productId] = productInfo
       cartList[shopId] = shopInfo
+    },
+    changeItemSelet: (state, payload) => {
+      const { shopId, productId } = payload
+      const { cartList } = state
+      const productInfo = cartList[shopId][productId]
+      productInfo.check = !productInfo.check
     }
   },
   actions: {
