@@ -96,6 +96,7 @@ export default {
         bottom 1.2rem
         &__count
           margin 0 1rem
+          vertical-align super
         &__plus,&__minus
           width 2rem
           height 2rem

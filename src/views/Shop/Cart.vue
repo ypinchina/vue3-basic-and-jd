@@ -1,20 +1,23 @@
 <!--  -->
 <template>
+  <div class="mask" v-if="cartShowFlag" @click="showOrHideCart" />
   <div class="cart">
-    <div class="product">
+    <div class="product" v-if="cartShowFlag">
       <div class="product__header">
         <div class="product__header__all">
-          <span class="product__header__icon iconfont">&#xe656;</span>
+          <span class="product__header__icon iconfont"
+          v-html="allCheck ? '&#xe652;' : '&#xe664;'"
+          @click="changeSelectAll()"></span>
           全选
         </div>
-        <div class="product__header__clear" @click="cleanCartProducts()">
-          清空购物车
+        <div class="product__header__clear" @click="cleanCartProducts">
+          <span class="product__header__clear__text">清空购物车</span>
         </div>
       </div>
       <template  v-for="item in cartMenuProductList" :key="item._id">
         <div class="product__item" v-if="item.count > 0">
           <span class="product__item__checkIcon iconfont"
-          v-html="item.check ? '&#xe656;' : '&#xe77d;'" @click="changeItemSelet(item._id)"></span>
+          v-html="item.check ? '&#xe652;' : '&#xe664;'" @click="changeItemSelet(item._id)"></span>
           <img :src="item.imgUrl" class="product__item__img" alt="">
           <div class="product__item__detail">
             <h4 class="product__item__title">{{ item.name }}</h4>
@@ -33,7 +36,7 @@
       </template>
     </div>
     <div class="check">
-      <div class="check__icon">
+      <div class="check__icon" @click="showOrHideCart">
         <img src="http://www.dell-lee.com/imgs/vue3/basket.png" class="check__icon__img" alt="">
         <span class="check__icon__tag">{{ total }}</span>
       </div>
@@ -50,8 +53,15 @@
 <script>
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { cartEffect } from './cartEffect'
+const toggleCartShow = () => {
+  const cartShowFlag = ref(false)
+  const showOrHideCart = () => {
+    cartShowFlag.value = !cartShowFlag.value
+  }
+  return { showOrHideCart, cartShowFlag }
+}
 const computedResultEffect = () => {
   // 计算购物车数量和总价的逻辑处理
   const store = useStore()
@@ -87,32 +97,60 @@ const computedResultEffect = () => {
     const productList = cartList[routeId] || []
     return productList
   })
+  const allCheck = computed(() => {
+    // 判断是否购物车全选的计算属性
+    const shopInfo = cartList[routeId]
+    let result = true
+    if (shopInfo) {
+      for (const i in shopInfo) {
+        const product = shopInfo[i]
+        if (!product.check && product.count > 0) {
+          result = false
+        }
+      }
+    }
+    return result
+  })
   const changeItemSelet = (productId) => {
     store.commit('changeItemSelet', { shopId: routeId, productId })
   }
   const cleanCartProducts = () => {
     store.commit('cleanCartProducts', { shopId: routeId })
   }
-  return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts }
+  const changeSelectAll = () => {
+    store.commit('changeSelectAll', { shopId: routeId })
+  }
+
+  return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, allCheck, changeSelectAll }
 }
 
 export default {
   name: 'Cart',
   setup () {
-    const { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts } = computedResultEffect()
-    return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts }
+    const { showOrHideCart, cartShowFlag } = toggleCartShow()
+    const { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, allCheck, changeSelectAll } = computedResultEffect()
+    return { total, sum, cartMenuProductList, cartShowFlag, changeProductNum, showOrHideCart, changeItemSelet, cleanCartProducts, allCheck, changeSelectAll }
   }
 }
 </script>
 <style scoped lang="stylus">
 @import '../../style/viriables.styl'
 @import '../../style/mixins.styl'
+.mask
+  position fixed
+  top 0
+  left 0
+  right 0
+  bottom 0
+  z-index 1
+  background rgba(0, 0, 0, .5)
 .cart
   position absolute
   background-color $bgColor
   bottom 0
   left 0
   right 0
+  z-index 2
   .product
     flex 1
     overflow-y scroll
@@ -129,10 +167,13 @@ export default {
       &__icon
         color $btnBlueColor
         font-size 2rem
+        vertical-align middle
       &__clear
         flex 1
         margin-right 1.6rem
         text-align right
+        &__text
+          display inline-block
     &__item
       position relative
       display flex
@@ -152,6 +193,7 @@ export default {
         bottom 1.2rem
         &__count
           margin 0 1rem
+          vertical-align super
         &__plus,&__minus
           width 2rem
           height 2rem
