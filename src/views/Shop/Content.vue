@@ -21,7 +21,7 @@
         </div>
         <div class="product__number">
           <span class="product__number__minus" @click="changeProductNum(item._id, item, -1)">-</span>
-          <span class="product__number__count">{{ item.count || 0 }}</span>
+          <span class="product__number__count">{{ cartList?.[routeId]?.[item._id]?.count || 0 }}</span>
           <span class="product__number__plus" @click="changeProductNum(item._id, item, 1)">+</span>
         </div>
       </div>
@@ -62,10 +62,10 @@ export default {
     const { selectSaleMenu, activeIndex } = tabEffect()
     const route = useRoute()
     const routeId = route.params.id
-    const { changeProductNum } = cartEffect(routeId)
+    const { changeProductNum, cartList } = cartEffect(routeId)
     const { getDataList, list } = getDataListEffect(activeIndex, routeId)
     const { contentList } = toRefs(list)
-    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductNum, routeId }
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductNum, routeId, cartList }
   }
 }
 </script>
@@ -101,7 +101,7 @@ export default {
           height 2rem
           font-size 2rem
           text-align center
-          line-height 1.6rem
+          line-height 2rem
           display inline-block
           border-radius 50%
         &__minus

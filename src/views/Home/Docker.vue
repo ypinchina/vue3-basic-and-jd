@@ -51,7 +51,7 @@ export default {
     .iconfont
       margin 0.7rem 0 0.2rem
   &__title
-    font-size 2rem
+    font-size 1rem
     transform scale(50%, 50%)
     transform-origin center top
 </style>

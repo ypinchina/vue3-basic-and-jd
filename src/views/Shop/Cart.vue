@@ -2,6 +2,15 @@
 <template>
   <div class="cart">
     <div class="product">
+      <div class="product__header">
+        <div class="product__header__all">
+          <span class="product__header__icon iconfont">&#xe656;</span>
+          全选
+        </div>
+        <div class="product__header__clear" @click="cleanCartProducts()">
+          清空购物车
+        </div>
+      </div>
       <template  v-for="item in cartMenuProductList" :key="item._id">
         <div class="product__item" v-if="item.count > 0">
           <span class="product__item__checkIcon iconfont"
@@ -81,14 +90,17 @@ const computedResultEffect = () => {
   const changeItemSelet = (productId) => {
     store.commit('changeItemSelet', { shopId: routeId, productId })
   }
-  return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet }
+  const cleanCartProducts = () => {
+    store.commit('cleanCartProducts', { shopId: routeId })
+  }
+  return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts }
 }
 
 export default {
   name: 'Cart',
   setup () {
-    const { total, sum, cartMenuProductList, changeProductNum, changeItemSelet } = computedResultEffect()
-    return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet }
+    const { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts } = computedResultEffect()
+    return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts }
   }
 }
 </script>
@@ -104,6 +116,23 @@ export default {
   .product
     flex 1
     overflow-y scroll
+    &__header
+      display flex
+      height 5.2rem
+      line-height 5.2rem
+      border-bottom 1px solid $content-bgColor
+      font-size 1.4rem
+      color $content-fontcolor
+      &__all
+        width 6.4rem
+        margin-left 1.8rem
+      &__icon
+        color $btnBlueColor
+        font-size 2rem
+      &__clear
+        flex 1
+        margin-right 1.6rem
+        text-align right
     &__item
       position relative
       display flex
@@ -128,7 +157,7 @@ export default {
           height 2rem
           font-size 2rem
           text-align center
-          line-height 1.6rem
+          line-height 2rem
           display inline-block
           border-radius 50%
         &__minus
