@@ -44,7 +44,9 @@
         总计：<span class="check__info__price">&yen;{{ sum }}</span>
       </div>
       <div class="check__btn">
-        去结算
+        <router-link :to="{name: 'Home'}">
+          去结算
+        </router-link>
       </div>
     </div>
   </div>
@@ -249,7 +251,7 @@ export default {
     &__tag
       display inline-block
       position absolute
-      background-color #e93b3b
+      background-color $heightLine-fontColor
       height 2rem
       width 2rem
       line-height 2rem
@@ -269,13 +271,15 @@ export default {
     width 9.8rem
     background-color #4fb0f9
     text-align center
-    color #fff
     font-size 1.4rem
+    a
+      color $bgColor
+      text-decoration none
   &__info
     flex 1
     color $content-fontcolor
     font-size 1.2rem
     &__price
-      color #e93b3b
+      color $heightLine-fontColor
       font-size 1.8rem
 </style>

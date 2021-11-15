@@ -50,7 +50,7 @@ export default {
     &__tag
         margin-right 1.6rem
     &__heightline
-      color #e93b3b
+      color $heightLine-fontColor
       line-height 1.8rem
       font-size 1.3rem
       margin 0.8rem 0 0 0
