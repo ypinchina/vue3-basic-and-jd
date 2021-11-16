@@ -20,9 +20,9 @@
           </div>
         </div>
         <div class="product__number">
-          <span class="product__number__minus" @click="changeProductNum(item._id, item, -1)">-</span>
-          <span class="product__number__count">{{ cartList?.[routeId]?.[item._id]?.count || 0 }}</span>
-          <span class="product__number__plus" @click="changeProductNum(item._id, item, 1)">+</span>
+          <span class="product__number__minus" @click="changeProductInfo(item._id, item, -1, shopName)">-</span>
+          <span class="product__number__count">{{ cartList?.[routeId]?.productList?.[item._id]?.count || 0 }}</span>
+          <span class="product__number__plus" @click="changeProductInfo(item._id, item, 1, shopName)">+</span>
         </div>
       </div>
     </div>
@@ -34,6 +34,7 @@ import { reactive, toRefs, watchEffect, ref } from 'vue'
 import { get } from '@/utils/request'
 import { useRoute } from 'vue-router'
 import { cartEffect } from './cartEffect'
+import { useStore } from 'vuex'
 const categoryList = [{ name: '全部商品', tab: 'all' },
   { name: '秒杀', tab: 'seckill' },
   { name: '新鲜水果', tab: 'fruit' }]
@@ -58,14 +59,23 @@ const getDataListEffect = (activeIndex, routeId) => {
 }
 export default {
   name: 'Content',
+  props: ['shopName'],
   setup () {
     const { selectSaleMenu, activeIndex } = tabEffect()
     const route = useRoute()
+    const store = useStore()
     const routeId = route.params.id
     const { changeProductNum, cartList } = cartEffect(routeId)
+    const changeShopName = (shopId, shopName) => {
+      store.commit('changeShopName', { shopId, shopName })
+    }
+    const changeProductInfo = (productId, product, num, shopName) => {
+      changeProductNum(productId, product, num)
+      changeShopName(routeId, shopName)
+    }
     const { getDataList, list } = getDataListEffect(activeIndex, routeId)
     const { contentList } = toRefs(list)
-    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductNum, routeId, cartList }
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductInfo, routeId, cartList }
   }
 }
 </script>

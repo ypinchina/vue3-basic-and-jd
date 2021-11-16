@@ -72,7 +72,7 @@ const computedResultEffect = () => {
   const routeId = route.params.id
   const { changeProductNum } = cartEffect(routeId)
   const total = computed(() => {
-    const shopInfo = cartList[routeId]
+    const shopInfo = cartList[routeId]?.productList
     let count = 0
     if (shopInfo) {
       for (const i in shopInfo) {
@@ -83,7 +83,7 @@ const computedResultEffect = () => {
     return count
   })
   const sum = computed(() => {
-    const shopInfo = cartList[routeId]
+    const shopInfo = cartList[routeId]?.productList
     let priceSum = 0
     if (shopInfo) {
       for (const i in shopInfo) {
@@ -96,12 +96,12 @@ const computedResultEffect = () => {
     return priceSum.toFixed(2)
   })
   const cartMenuProductList = computed(() => {
-    const productList = cartList[routeId] || []
+    const productList = cartList[routeId]?.productList || []
     return productList
   })
   const allCheck = computed(() => {
     // 判断是否购物车全选的计算属性
-    const shopInfo = cartList[routeId]
+    const shopInfo = cartList[routeId]?.productList
     let result = true
     if (shopInfo) {
       for (const i in shopInfo) {
