@@ -1,12 +1,12 @@
 <!--  -->
 <template>
-  <div class="mask" v-if="cartShowFlag" @click="showOrHideCart" />
+  <div class="mask" v-if="cartShowFlag && calculations.total > 0" @click="showOrHideCart" />
   <div class="cart">
-    <div class="product" v-if="cartShowFlag">
+    <div class="product" v-if="cartShowFlag && calculations.total > 0">
       <div class="product__header">
         <div class="product__header__all">
           <span class="product__header__icon iconfont"
-          v-html="allCheck ? '&#xe652;' : '&#xe664;'"
+          v-html="calculations.allCheck ? '&#xe652;' : '&#xe664;'"
           @click="changeSelectAll()"></span>
           全选
         </div>
@@ -38,10 +38,10 @@
     <div class="check">
       <div class="check__icon" @click="showOrHideCart">
         <img src="http://www.dell-lee.com/imgs/vue3/basket.png" class="check__icon__img" alt="">
-        <span class="check__icon__tag">{{ total }}</span>
+        <span class="check__icon__tag">{{ calculations.total }}</span>
       </div>
       <div class="check__info">
-        总计：<span class="check__info__price">&yen;{{ sum }}</span>
+        总计：<span class="check__info__price">&yen;{{ calculations.sum }}</span>
       </div>
       <div class="check__btn">
         <router-link :to="{name: 'Home'}">
@@ -71,47 +71,27 @@ const computedResultEffect = () => {
   const { cartList } = store.state
   const routeId = route.params.id
   const { changeProductNum } = cartEffect(routeId)
-  const total = computed(() => {
+  const calculations = computed(() => {
     const shopInfo = cartList[routeId]?.productList
-    let count = 0
+    const calcuResult = { total: 0, sum: 0, allCheck: true }
     if (shopInfo) {
       for (const i in shopInfo) {
         const product = shopInfo[i]
-        count += product.count
-      }
-    }
-    return count
-  })
-  const sum = computed(() => {
-    const shopInfo = cartList[routeId]?.productList
-    let priceSum = 0
-    if (shopInfo) {
-      for (const i in shopInfo) {
-        const product = shopInfo[i]
+        calcuResult.total += product.count
         if (product.check) {
-          priceSum += product.count * product.price
+          calcuResult.sum += product.count * product.price
+        }
+        if (!product.check && product.count > 0) {
+          calcuResult.allCheck = false
         }
       }
     }
-    return priceSum.toFixed(2)
+    calcuResult.sum = calcuResult.sum.toFixed(2)
+    return calcuResult
   })
   const cartMenuProductList = computed(() => {
     const productList = cartList[routeId]?.productList || []
     return productList
-  })
-  const allCheck = computed(() => {
-    // 判断是否购物车全选的计算属性
-    const shopInfo = cartList[routeId]?.productList
-    let result = true
-    if (shopInfo) {
-      for (const i in shopInfo) {
-        const product = shopInfo[i]
-        if (!product.check && product.count > 0) {
-          result = false
-        }
-      }
-    }
-    return result
   })
   const changeItemSelet = (productId) => {
     store.commit('changeItemSelet', { shopId: routeId, productId })
@@ -123,15 +103,15 @@ const computedResultEffect = () => {
     store.commit('changeSelectAll', { shopId: routeId })
   }
 
-  return { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, allCheck, changeSelectAll }
+  return { cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, calculations, changeSelectAll }
 }
 
 export default {
   name: 'Cart',
   setup () {
     const { showOrHideCart, cartShowFlag } = toggleCartShow()
-    const { total, sum, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, allCheck, changeSelectAll } = computedResultEffect()
-    return { total, sum, cartMenuProductList, cartShowFlag, changeProductNum, showOrHideCart, changeItemSelet, cleanCartProducts, allCheck, changeSelectAll }
+    const { calculations, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, changeSelectAll } = computedResultEffect()
+    return { calculations, cartMenuProductList, cartShowFlag, changeProductNum, showOrHideCart, changeItemSelet, cleanCartProducts, changeSelectAll }
   }
 }
 </script>

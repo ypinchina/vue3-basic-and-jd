@@ -21,7 +21,7 @@
         </div>
         <div class="product__number">
           <span class="product__number__minus" @click="changeProductInfo(item._id, item, -1, shopName)">-</span>
-          <span class="product__number__count">{{ cartList?.[routeId]?.productList?.[item._id]?.count || 0 }}</span>
+          <span class="product__number__count">{{ dealWithCountItem(item) }}</span>
           <span class="product__number__plus" @click="changeProductInfo(item._id, item, 1, shopName)">+</span>
         </div>
       </div>
@@ -57,25 +57,32 @@ const getDataListEffect = (activeIndex, routeId) => {
   watchEffect(() => { getDataList() })
   return { getDataList, list }
 }
+const cartCommonEffect = () => {
+  const route = useRoute()
+  const store = useStore()
+  const routeId = route.params.id
+  const { changeProductNum, cartList } = cartEffect(routeId)
+  const changeShopName = (shopId, shopName) => {
+    store.commit('changeShopName', { shopId, shopName })
+  }
+  const changeProductInfo = (productId, product, num, shopName) => {
+    changeProductNum(productId, product, num)
+    changeShopName(routeId, shopName)
+  }
+  return { changeProductInfo, cartList, routeId }
+}
 export default {
   name: 'Content',
   props: ['shopName'],
   setup () {
     const { selectSaleMenu, activeIndex } = tabEffect()
-    const route = useRoute()
-    const store = useStore()
-    const routeId = route.params.id
-    const { changeProductNum, cartList } = cartEffect(routeId)
-    const changeShopName = (shopId, shopName) => {
-      store.commit('changeShopName', { shopId, shopName })
-    }
-    const changeProductInfo = (productId, product, num, shopName) => {
-      changeProductNum(productId, product, num)
-      changeShopName(routeId, shopName)
-    }
+    const { changeProductInfo, cartList, routeId } = cartCommonEffect()
     const { getDataList, list } = getDataListEffect(activeIndex, routeId)
     const { contentList } = toRefs(list)
-    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductInfo, routeId, cartList }
+    const dealWithCountItem = (item) => {
+      return cartList?.[routeId]?.productList?.[item._id]?.count || 0
+    }
+    return { categoryList, selectSaleMenu, activeIndex, contentList, getDataList, changeProductInfo, dealWithCountItem }
   }
 }
 </script>
