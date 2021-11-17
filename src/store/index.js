@@ -1,8 +1,10 @@
 import { createStore } from 'vuex'
-
+const saveCartListToVuex = (cartList) => {
+  localStorage.setItem('cartList', JSON.stringify(cartList))
+}
 export default createStore({
   state: {
-    cartList: {}
+    cartList: JSON.parse(localStorage.getItem('cartList')) || {}
   },
   mutations: {
     changeCartList: (state, payload) => {
@@ -21,12 +23,14 @@ export default createStore({
       if (productInfo.count < 0) productInfo.count = 0
       shopInfo.productList[productId] = productInfo
       cartList[shopId] = shopInfo
+      saveCartListToVuex(cartList)
     },
     changeItemSelet: (state, payload) => {
       const { shopId, productId } = payload
       const { cartList } = state
       const productInfo = cartList[shopId].productList[productId]
       productInfo.check = !productInfo.check
+      saveCartListToVuex(cartList)
     },
     cleanCartProducts: (state, payload) => {
       const { cartList } = state
@@ -34,6 +38,7 @@ export default createStore({
       cartList[shopId] = {
         shopName: '', productList: {}
       }
+      saveCartListToVuex(cartList)
     },
     changeSelectAll: (state, payload) => {
       const { cartList } = state
@@ -44,6 +49,7 @@ export default createStore({
           shopInfo[i].check = true
         }
       }
+      saveCartListToVuex(cartList)
     },
     changeShopName: (state, payload) => {
       const { cartList } = state
@@ -53,6 +59,7 @@ export default createStore({
       }
       shopInfo.shopName = shopName
       cartList[shopId] = shopInfo
+      saveCartListToVuex(cartList)
     }
   },
   actions: {

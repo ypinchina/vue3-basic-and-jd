@@ -20,6 +20,10 @@ const routes = [{
   path: '/shop/:id',
   name: 'Shop',
   component: () => import(/* webpackChunkName: "shop" */ '../views/Shop/Shop.vue')
+}, {
+  path: '/cartList',
+  name: 'CartList',
+  component: () => import(/* webpackChunkName: "CartList" */ '../views/CartList/CartList.vue')
 }]
 
 const router = createRouter({
