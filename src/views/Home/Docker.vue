@@ -62,4 +62,5 @@ export default {
     transform-origin center top
     a
       color $content-fontcolor
+      text-decoration none
 </style>

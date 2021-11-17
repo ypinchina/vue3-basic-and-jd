@@ -44,7 +44,7 @@
         总计：<span class="check__info__price">&yen;{{ calculations.sum }}</span>
       </div>
       <div class="check__btn">
-        <router-link :to="{name: 'Home'}">
+        <router-link :to="{path: '/orderConfirm/' + routeId }">
           去结算
         </router-link>
       </div>
@@ -103,15 +103,15 @@ const computedResultEffect = () => {
     store.commit('changeSelectAll', { shopId: routeId })
   }
 
-  return { cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, calculations, changeSelectAll }
+  return { cartMenuProductList, routeId, changeProductNum, changeItemSelet, cleanCartProducts, calculations, changeSelectAll }
 }
 
 export default {
   name: 'Cart',
   setup () {
     const { showOrHideCart, cartShowFlag } = toggleCartShow()
-    const { calculations, cartMenuProductList, changeProductNum, changeItemSelet, cleanCartProducts, changeSelectAll } = computedResultEffect()
-    return { calculations, cartMenuProductList, cartShowFlag, changeProductNum, showOrHideCart, changeItemSelet, cleanCartProducts, changeSelectAll }
+    const { calculations, cartMenuProductList, routeId, changeProductNum, changeItemSelet, cleanCartProducts, changeSelectAll } = computedResultEffect()
+    return { calculations, cartMenuProductList, routeId, cartShowFlag, changeProductNum, showOrHideCart, changeItemSelet, cleanCartProducts, changeSelectAll }
   }
 }
 </script>
