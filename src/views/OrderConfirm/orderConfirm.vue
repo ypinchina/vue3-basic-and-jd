@@ -4,7 +4,7 @@
     <div class="top">
       <div class="top__bgcolor"></div>
       <div class="top__header">
-        <span class="iconfont top__header__back">&#xe6db;</span>
+        <span class="iconfont top__header__back" @click="back">&#xe6db;</span>
         确认订单
       </div>
       <div class="top__receiver">
@@ -18,23 +18,31 @@
       </div>
     </div>
     <div class="products">
-      <div class="products__title">{{ cartShopName }}</div>
-      <div class="products__list">
-        <div class="product__item" v-for="item in cartMenuProductList" :key="item._id">
-          <img :src="item.imgUrl" class="product__item__img" alt="">
-          <div class="product__item__detail">
-            <h4 class="product__item__title">{{ item.name }}</h4>
-            <div class="product__item__price">
-              <span class="product__item__single">
-                <span class="product__item__yen">&yen;</span>{{ item.price }} × {{ item.count }}
-              </span>
-              <span class="product__item__total">
-                <span class="product__item__yen">&yen;</span>{{ item.price * item.count }}
-              </span>
+      <div class="products__wrapper">
+        <div class="products__title">{{ cartShopName }}</div>
+        <div class="products__list">
+          <template v-for="item in cartMenuProductList" :key="item._id">
+            <div class="product__item" v-if="item.count > 0">
+              <img :src="item.imgUrl" class="product__item__img" alt="">
+              <div class="product__item__detail">
+                <h4 class="product__item__title">{{ item.name }}</h4>
+                <div class="product__item__price">
+                  <span class="product__item__single">
+                    <span class="product__item__yen">&yen;</span>{{ item.price }} × {{ item.count }}
+                  </span>
+                  <span class="product__item__total">
+                    <span class="product__item__yen">&yen;</span>{{ item.price * item.count }}
+                  </span>
+                </div>
+              </div>
             </div>
-          </div>
+          </template>
         </div>
       </div>
+    </div>
+    <div class="order">
+      <div class="order__price">实付金额 ￥<b>{{ calculations.sum }}</b></div>
+      <div class="order__btn">提交订单</div>
     </div>
   </div>
 </template>
@@ -42,7 +50,7 @@
 <script>
 import { computed } from 'vue'
 import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 const getProductListEffect = () => {
   const store = useStore()
   const route = useRoute()
@@ -56,14 +64,36 @@ const getProductListEffect = () => {
     const shopName = cartList[routeId]?.shopName || ''
     return shopName
   })
-  return { cartMenuProductList, cartShopName }
+  const calculations = computed(() => {
+    const shopInfo = cartList[routeId]?.productList
+    const calcuResult = { total: 0, sum: 0, allCheck: true }
+    if (shopInfo) {
+      for (const i in shopInfo) {
+        const product = shopInfo[i]
+        calcuResult.total += product.count
+        if (product.check) {
+          calcuResult.sum += product.count * product.price
+        }
+        if (!product.check && product.count > 0) {
+          calcuResult.allCheck = false
+        }
+      }
+    }
+    calcuResult.sum = calcuResult.sum.toFixed(2)
+    return calcuResult
+  })
+  return { cartMenuProductList, cartShopName, calculations }
 }
 
 export default {
   name: 'OrderConfirm',
   setup () {
-    const { cartMenuProductList, cartShopName } = getProductListEffect()
-    return { cartMenuProductList, cartShopName }
+    const router = useRouter()
+    const { cartMenuProductList, cartShopName, calculations } = getProductListEffect()
+    const back = () => {
+      router.back()
+    }
+    return { cartMenuProductList, cartShopName, calculations, back }
   }
 }
 </script>
@@ -73,6 +103,8 @@ export default {
 .wrapper
   background-color #fafafa
   position absolute
+  display flex
+  flex-direction column
   bottom 0
   left 0
   top 0
@@ -127,9 +159,28 @@ export default {
         position absolute
         left 1.8rem
         font-size 2.2rem
-  .products
-    margin 1.6rem 1.8rem 5.5rem 1.8rem
+  .order
+    display flex
+    height 4.9rem
+    line-height 4.9rem
     background-color $bgColor
+    &__price
+      flex 1
+      text-indent 2.4rem
+      font-size 1.4rem
+      color $content-fontcolor
+    &__btn
+      width 9.8rem
+      background-color #4fb0f9
+      color $bgColor
+      text-align center
+      font-size 1.4rem
+  .products
+    margin 1.6rem 1.8rem 2rem 1.8rem
+    flex 1
+    overflow-y auto
+    &__wrapper
+      background-color $bgColor
     &__title
       padding 1.6rem 1.6rem 0 1.6rem
       font-size 1.6rem
