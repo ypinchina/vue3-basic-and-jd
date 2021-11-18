@@ -55,8 +55,8 @@
 <script>
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-import { computed, ref } from 'vue'
-import { cartEffect } from './cartEffect'
+import { ref } from 'vue'
+import { cartEffect } from '../../effects/cartEffect'
 const toggleCartShow = () => {
   const cartShowFlag = ref(false)
   const showOrHideCart = () => {
@@ -68,31 +68,8 @@ const computedResultEffect = () => {
   // 计算购物车数量和总价的逻辑处理
   const store = useStore()
   const route = useRoute()
-  const { cartList } = store.state
   const routeId = route.params.id
-  const { changeProductNum } = cartEffect(routeId)
-  const calculations = computed(() => {
-    const shopInfo = cartList[routeId]?.productList
-    const calcuResult = { total: 0, sum: 0, allCheck: true }
-    if (shopInfo) {
-      for (const i in shopInfo) {
-        const product = shopInfo[i]
-        calcuResult.total += product.count
-        if (product.check) {
-          calcuResult.sum += product.count * product.price
-        }
-        if (!product.check && product.count > 0) {
-          calcuResult.allCheck = false
-        }
-      }
-    }
-    calcuResult.sum = calcuResult.sum.toFixed(2)
-    return calcuResult
-  })
-  const cartMenuProductList = computed(() => {
-    const productList = cartList[routeId]?.productList || []
-    return productList
-  })
+  const { changeProductNum, cartMenuProductList, calculations } = cartEffect(routeId)
   const changeItemSelet = (productId) => {
     store.commit('changeItemSelet', { shopId: routeId, productId })
   }

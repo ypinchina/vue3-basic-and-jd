@@ -1,105 +1,22 @@
 <!--  -->
 <template>
   <div class="wrapper">
-    <div class="top">
-      <div class="top__bgcolor"></div>
-      <div class="top__header">
-        <span class="iconfont top__header__back" @click="back">&#xe6db;</span>
-        确认订单
-      </div>
-      <div class="top__receiver">
-        <div class="top__receiver__title">收货地址</div>
-        <div class="top__receiver__address">北京理工大学国防科技园2号楼10层</div>
-        <div class="top__receiver__info">
-          <div class="top__receiver__info__name">易(先生)</div>
-          <div class="top__receiver__info__name">13811111111</div>
-        </div>
-        <span class="iconfont top__receiver__icon">&#xe6db;</span>
-      </div>
-    </div>
-    <div class="products">
-      <div class="products__wrapper">
-        <div class="products__title">{{ cartShopName }}</div>
-        <div class="products__list">
-          <template v-for="item in cartMenuProductList" :key="item._id">
-            <div class="product__item" v-if="item.count > 0">
-              <img :src="item.imgUrl" class="product__item__img" alt="">
-              <div class="product__item__detail">
-                <h4 class="product__item__title">{{ item.name }}</h4>
-                <div class="product__item__price">
-                  <span class="product__item__single">
-                    <span class="product__item__yen">&yen;</span>{{ item.price }} × {{ item.count }}
-                  </span>
-                  <span class="product__item__total">
-                    <span class="product__item__yen">&yen;</span>{{ item.price * item.count }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </template>
-        </div>
-      </div>
-    </div>
-    <div class="order">
-      <div class="order__price">实付金额 ￥<b>{{ calculations.sum }}</b></div>
-      <div class="order__btn">提交订单</div>
-    </div>
+    <Top />
+    <Products />
+    <Order />
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
-const getProductListEffect = () => {
-  const store = useStore()
-  const route = useRoute()
-  const routeId = route.params.id
-  const { cartList } = store.state
-  const cartMenuProductList = computed(() => {
-    const productList = cartList[routeId]?.productList || []
-    return productList
-  })
-  const cartShopName = computed(() => {
-    const shopName = cartList[routeId]?.shopName || ''
-    return shopName
-  })
-  const calculations = computed(() => {
-    const shopInfo = cartList[routeId]?.productList
-    const calcuResult = { total: 0, sum: 0, allCheck: true }
-    if (shopInfo) {
-      for (const i in shopInfo) {
-        const product = shopInfo[i]
-        calcuResult.total += product.count
-        if (product.check) {
-          calcuResult.sum += product.count * product.price
-        }
-        if (!product.check && product.count > 0) {
-          calcuResult.allCheck = false
-        }
-      }
-    }
-    calcuResult.sum = calcuResult.sum.toFixed(2)
-    return calcuResult
-  })
-  return { cartMenuProductList, cartShopName, calculations }
-}
-
+import Top from './Top.vue'
+import Order from './Order.vue'
+import Products from './Products.vue'
 export default {
   name: 'OrderConfirm',
-  setup () {
-    const router = useRouter()
-    const { cartMenuProductList, cartShopName, calculations } = getProductListEffect()
-    const back = () => {
-      router.back()
-    }
-    return { cartMenuProductList, cartShopName, calculations, back }
-  }
+  components: { Order, Products, Top }
 }
 </script>
 <style scoped lang='stylus'>
-@import '../../style/mixins.styl'
-@import '../../style/viriables.styl'
 .wrapper
   background-color #fafafa
   position absolute
@@ -109,117 +26,4 @@ export default {
   left 0
   top 0
   right 0
-  .top
-    height 19.6rem
-    position relative
-    background-size 100% 15.9rem
-    background-repeat no-repeat
-    background-image  linear-gradient(0deg, rgba(0,145,255,0.00) 4%, #0091FF 50%)
-    &__receiver
-      position absolute
-      left 1.8rem
-      right 1.8rem
-      bottom 0
-      height 11.1rem
-      background-color $bgColor
-      border-radius 4px
-      &__icon
-        transform rotate(180deg)
-        position absolute
-        right 1.6rem
-        top 5rem
-        color $medium-fontColor
-        font-size 1.6rem
-      &__title
-        line-height 2.2rem
-        padding 1.6rem 0 1.4rem 1.6rem
-        font-size 1.6rem
-        color $content-fontcolor
-      &__address
-        line-height 2rem
-        padding 0 .4rem 0 1.6rem
-        font-size 1.4rem
-        color $content-fontcolor
-      &__info
-        padding .6rem 0 0 1.6rem
-        &__name
-          line-height 1.8rem
-          font-size 1.2rem
-          color $medium-fontColor
-          margin-right .6rem
-          display inline-block
-    &__header
-      position relative
-      padding-top 2.6rem
-      line-height 2.4rem
-      color $bgColor
-      text-align center
-      font-size 1.6rem
-      &__back
-        position absolute
-        left 1.8rem
-        font-size 2.2rem
-  .order
-    display flex
-    height 4.9rem
-    line-height 4.9rem
-    background-color $bgColor
-    &__price
-      flex 1
-      text-indent 2.4rem
-      font-size 1.4rem
-      color $content-fontcolor
-    &__btn
-      width 9.8rem
-      background-color #4fb0f9
-      color $bgColor
-      text-align center
-      font-size 1.4rem
-  .products
-    margin 1.6rem 1.8rem 2rem 1.8rem
-    flex 1
-    overflow-y auto
-    &__wrapper
-      background-color $bgColor
-    &__title
-      padding 1.6rem 1.6rem 0 1.6rem
-      font-size 1.6rem
-      color $content-fontcolor
-    &__list
-      .product
-        flex 1
-        overflow-y scroll
-        &__item
-          position relative
-          display flex
-          padding 1.6rem
-          &__detail
-            flex 1
-          &__yen
-            font-size 1.2rem
-          &__img
-            width 4.6rem
-            height 4.6rem
-            margin-right 1.6rem
-          &__price
-            margin 0.6rem 0 0 0
-            font-size 1.4rem
-            line-height 2rem
-            color $heightLine-fontColor
-            display flex
-          &__single
-            display inline-block
-          &__total
-            flex 1
-            text-align right
-            display inline-block
-            color #000
-          &__yen
-            font-size 1.2rem
-          &__title
-            margin 0
-            font-size 1.4rem
-            line-height 1.6rem
-            color $content-fontcolor
-            ellipsis()
 </style>
