@@ -2,9 +2,9 @@
 <template>
   <div class="order">
     <div class="order__price">实付金额 ￥<b>{{ calculations.sum }}</b></div>
-    <div class="order__btn" @click="showOrderMask">提交订单</div>
+    <div class="order__btn" @click="showOrderMask(true)">提交订单</div>
   </div>
-  <div class="mask" v-show="isShowMask">
+  <div class="mask" v-show="isShowMask" @click.self="showOrderMask(false)">
     <div class="mask__content">
       <h3 class="mask__content__title">确认要离开收银台？</h3>
       <p class="mask__content__desc">请尽快完成支付，否则将被取消</p>
@@ -61,8 +61,8 @@ const orderConfirmBtnEffect = (cartShopName, routeId, cartMenuProductList, isSho
 export default {
   setup () {
     const isShowMask = ref(false)
-    const showOrderMask = () => {
-      isShowMask.value = true
+    const showOrderMask = (flag) => {
+      isShowMask.value = flag
     }
     const { calculations, cartShopName, routeId, cartMenuProductList } = getProductListEffect()
     const { orderSend } = orderConfirmBtnEffect(cartShopName, routeId, cartMenuProductList, isShowMask)
