@@ -4,22 +4,20 @@
     <div class="products__wrapper">
       <div class="products__title">{{ cartShopName }}</div>
       <div class="products__list">
-        <template v-for="item in cartMenuProductList" :key="item._id">
-          <div class="product__item" v-if="item.count > 0">
-            <img :src="item.imgUrl" class="product__item__img" alt="">
-            <div class="product__item__detail">
-              <h4 class="product__item__title">{{ item.name }}</h4>
-              <div class="product__item__price">
-                <span class="product__item__single">
-                  <span class="product__item__yen">&yen;</span>{{ item.price }} × {{ item.count }}
-                </span>
-                <span class="product__item__total">
-                  <span class="product__item__yen">&yen;</span>{{ (item.price * item.count).toFixed(2) }}
-                </span>
-              </div>
+        <div class="product__item" v-for="item in cartMenuProductList" :key="item._id">
+          <img :src="item.imgUrl" class="product__item__img" alt="">
+          <div class="product__item__detail">
+            <h4 class="product__item__title">{{ item.name }}</h4>
+            <div class="product__item__price">
+              <span class="product__item__single">
+                <span class="product__item__yen">&yen;</span>{{ item.price }} × {{ item.count }}
+              </span>
+              <span class="product__item__total">
+                <span class="product__item__yen">&yen;</span>{{ (item.price * item.count).toFixed(2) }}
+              </span>
             </div>
           </div>
-        </template>
+        </div>
       </div>
     </div>
   </div>

@@ -31,8 +31,15 @@ export const cartEffect = (routeId) => {
     return shopName
   })
   const cartMenuProductList = computed(() => {
-    const productList = cartList[routeId]?.productList || []
-    return productList
+    const productList = cartList[routeId]?.productList || {}
+    const filter = {}
+    for (const i in productList) {
+      const product = productList[i]
+      if (product.count > 0) {
+        filter[i] = product
+      }
+    }
+    return filter
   })
   return { changeProductNum, calculations, cartShopName, cartMenuProductList, cartList }
 }

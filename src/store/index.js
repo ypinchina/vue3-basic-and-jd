@@ -60,6 +60,9 @@ export default createStore({
       shopInfo.shopName = shopName
       cartList[shopId] = shopInfo
       saveCartListToVuex(cartList)
+    },
+    cleanProductList: (state, shopId) => {
+      state.cartList[shopId].productList = {}
     }
   },
   actions: {
