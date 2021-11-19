@@ -1,7 +1,7 @@
 <!--  -->
 <template>
   <div class="docker">
-    <div class="docker__item" v-for="(item, index) in menuList" :key="index" :class="{'docker__item--active': index == 0}">
+    <div class="docker__item" v-for="(item, index) in menuList" :key="index" :class="{'docker__item--active': index == currentIndex}">
       <div class="iconfont" v-html="item.icon" />
       <div class="docker__title">
         <router-link :to="item.to">{{ item.name }}</router-link>
@@ -11,6 +11,7 @@
 </template>
 <script>
 export default {
+  props: ['currentIndex'],
   setup () {
     const menuList = [{
       name: '首页',
@@ -23,7 +24,7 @@ export default {
     }, {
       name: '订单',
       icon: '&#xe612;',
-      to: { name: 'Home' }
+      to: { name: 'OrderList' }
     }, {
       name: '我的',
       icon: '&#xe612;',
@@ -35,7 +36,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../style/viriables.styl'
+@import '../style/viriables.styl'
 .docker
   color $content-fontcolor
   width 100%

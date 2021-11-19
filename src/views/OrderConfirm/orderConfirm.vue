@@ -17,8 +17,9 @@ export default {
 }
 </script>
 <style scoped lang='stylus'>
+@import '../../style/viriables.styl'
 .wrapper
-  background-color #fafafa
+  background-color $content-bgOrder
   position absolute
   display flex
   flex-direction column

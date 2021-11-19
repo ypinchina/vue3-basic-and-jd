@@ -51,7 +51,7 @@ const orderConfirmBtnEffect = (cartShopName, routeId, cartMenuProductList, isSho
       // 成功返回首页
       isShowMask.value = false
       store.commit('cleanProductList', routeId)
-      router.push({ name: 'Home' })
+      router.push({ name: 'OrderList' })
     } else {
       // 失败给toast提示
     }
