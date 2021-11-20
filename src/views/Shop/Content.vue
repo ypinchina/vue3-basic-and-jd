@@ -166,7 +166,7 @@ export default {
       height 4rem
       line-height 4rem
       text-align center
-      font-size 14px
+      font-size 1.4rem
       color $content-fontcolor
       &--active
         background-color $bgColor

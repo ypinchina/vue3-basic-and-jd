@@ -49,5 +49,5 @@ export default {
   line-height 4rem
   padding 0 2rem
   font-size 0.12rem
-  border-radius 6px
+  border-radius 0.6rem
 </style>
