@@ -41,7 +41,7 @@ stop停止子传父冒泡
 
 
 
-五. mixin:  1.组件的data，methods优先级高于mixin里面的data,methods
+五. mixins:  1.组件的data，methods优先级高于mixins里面的data,methods
 2.生命周期函数先执行mixin里的再执行组件里的
 
 六. compositionApi：
